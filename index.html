@@ -48,4 +48,17 @@ pdfjsLib.getDocument(url).promise.then(function(pdf){
       document.getElementById("viewer").appendChild(canvas);
 
       page.render({
-        canvasCo
+        canvasContext: context,
+        viewport: viewport
+      });
+
+    });
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
