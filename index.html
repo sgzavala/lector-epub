@@ -1,26 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Lector ePub</title>
+<script src="https://unpkg.com/epubjs/dist/epub.min.js"></script>
+<style>
+html,body{
+ margin:0;
+ height:100%;
+}
+#viewer{
+ width:100%;
+ height:100%;
+}
+</style>
+</head>
+
+<body>
+
+<div id="viewer"></div>
+
 <script>
 
 var book = ePub("libro.epub");
 
 var rendition = book.renderTo("viewer", {
- width: "100vw",
- height: "calc(100vh - 50px)"
+ width: "100%",
+ height: "100%"
 });
 
-book.ready.then(function () {
- rendition.display();
-});
-
-rendition.on("rendered", function(){
- console.log("capítulo renderizado");
-});
-
-rendition.on("displayError", function(e){
- console.log("error display", e);
-});
-
-book.loaded.navigation.then(function(toc){
- console.log("TOC cargado");
-});
+rendition.display();
 
 </script>
+
+</body>
+</html>
