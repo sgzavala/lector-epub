@@ -57,10 +57,9 @@ var url="libro.epub";
 
 var book=ePub(url);
 
-var rendition=book.renderTo("viewer",{
- width:"100%",
- height:"100%",
- spread:"none"
+var rendition = book.renderTo("viewer", {
+ width: "100vw",
+ height: "calc(100vh - 50px)"
 });
 
 rendition.display();
