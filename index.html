@@ -1,95 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Lector ePub</title>
-
-<script src="https://unpkg.com/epubjs/dist/epub.min.js"></script>
-
-<style>
-body{
- margin:0;
- font-family:Arial;
- background:#111;
- color:white;
-}
-#viewer{
- width:100vw;
- height:calc(100vh - 50px);
-}
-#toolbar{
- position:absolute;
- top:0;
- left:0;
- right:0;
- height:50px;
- background:#000;
- display:flex;
- align-items:center;
- padding:5px;
- gap:10px;
-}
-button{
- padding:5px 10px;
- cursor:pointer;
-}
-</style>
-
-</head>
-
-<body>
-
-<div id="toolbar">
-<button onclick="prev()">◀</button>
-<button onclick="next()">▶</button>
-<button onclick="toggleMode()">🌙</button>
-<span id="progress"></span>
-</div>
-
-<div id="viewer"></div>
-
 <script>
- 
-var url="libro.epub";
 
-var book=ePub(url);
+var book = ePub("libro.epub");
 
 var rendition = book.renderTo("viewer", {
  width: "100vw",
  height: "calc(100vh - 50px)"
 });
 
-rendition.display();
-
-rendition.on("relocated",function(loc){
- localStorage.setItem("epub-location",loc.start.cfi);
- document.getElementById("progress").innerText=
- Math.round(book.locations.percentageFromCfi(loc.start.cfi)*100)+"%";
+book.ready.then(function () {
+ rendition.display();
 });
 
-book.ready.then(function(){
- return book.locations.generate(1000);
+rendition.on("rendered", function(){
+ console.log("capítulo renderizado");
 });
 
-var saved=localStorage.getItem("epub-location");
-if(saved)rendition.display(saved);
+rendition.on("displayError", function(e){
+ console.log("error display", e);
+});
 
-function next(){rendition.next();}
-function prev(){rendition.prev();}
-
-function toggleMode(){
- document.body.style.background=
- document.body.style.background=="white"?"#111":"white";
- document.body.style.color=
- document.body.style.color=="black"?"white":"black";
-}
-
-document.addEventListener("keydown",e=>{
- if(e.key=="ArrowRight")next();
- if(e.key=="ArrowLeft")prev();
+book.loaded.navigation.then(function(toc){
+ console.log("TOC cargado");
 });
 
 </script>
-
-</body>
-</html>
