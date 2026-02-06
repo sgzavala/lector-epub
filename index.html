@@ -2,63 +2,24 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Visor PDF</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<title>PDF</title>
 
 <style>
 html,body{
   margin:0;
   height:100%;
 }
-
-#viewer{
+iframe{
   width:100%;
-}
-canvas{
-  display:block;
-  margin:auto;
+  height:100%;
+  border:none;
 }
 </style>
 </head>
 
 <body>
 
-<div id="viewer"></div>
-
-<script>
-
-const url = "./libro.pdf";
-
-pdfjsLib.getDocument(url).promise.then(function(pdf){
-
-  for(let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++){
-
-    pdf.getPage(pageNumber).then(function(page){
-
-      const scale = 1.5;
-      const viewport = page.getViewport({ scale });
-
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
-
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      document.getElementById("viewer").appendChild(canvas);
-
-      page.render({
-        canvasContext: context,
-        viewport: viewport
-      });
-
-    });
-
-  }
-
-});
-
-</script>
+<iframe src="./libro.pdf"></iframe>
 
 </body>
 </html>
