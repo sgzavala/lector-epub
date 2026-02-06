@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Visor EPUB</title>
 
-<script src="https://unpkg.com/epubjs@0.3.93/dist/epub.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
 
 <style>
 html,body{
@@ -23,20 +23,26 @@ html,body{
 <div id="viewer"></div>
 
 <script>
-window.addEventListener("load", function(){
 
-  console.log("ePub =", typeof ePub);
+function iniciar(){
+
+  if(typeof ePub === "undefined"){
+    console.error("epub.js NO cargó");
+    return;
+  }
 
   var book = ePub("libro.epub");
 
-  var rendition = book.renderTo("viewer", {
+  var rendition = book.renderTo("viewer",{
     width:"100%",
     height:"100%"
   });
 
   rendition.display();
+}
 
-});
+window.onload = iniciar;
+
 </script>
 
 </body>
