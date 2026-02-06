@@ -1,37 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Lector ePub</title>
-<script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
-<style>
-html,body{
- margin:0;
- height:100%;
-}
-#viewer{
- width:100%;
- height:100%;
-}
-</style>
-</head>
-
-<body>
-
-<div id="viewer"></div>
-
 <script>
 
-var book = ePub("libro.epub");
-
-var rendition = book.renderTo("viewer", {
- width: "100%",
- height: "100%"
+var book = ePub({
+  url: "libro.epub",
+  openAs: "epub"
 });
 
-rendition.display();
+var rendition = book.renderTo("viewer", {
+  width: "100%",
+  height: "100%"
+});
+
+book.ready.then(function () {
+  console.log("EPUB cargado");
+  rendition.display();
+});
+
+book.loaded.spine.then(function(spine){
+  console.log("Spine OK", spine);
+});
+
+book.loaded.navigation.then(function(nav){
+  console.log("TOC OK", nav);
+});
+
+book.on("openFailed", function(e){
+  console.log("Error abriendo epub", e);
+});
 
 </script>
-
-</body>
-</html>
